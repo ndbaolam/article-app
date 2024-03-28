@@ -8,9 +8,15 @@ export const typeDefs = gql`
     description: String
   }
 
+  type Category {
+    id: ID,
+    title: String,
+    avatar: String
+  }
+
   type Query {
-    hello: String,
     getListArticles: [Article]
+    getListCategories: [Category]
   }
 
   input ArticleInput {
@@ -19,9 +25,18 @@ export const typeDefs = gql`
     description: String
   }
 
+  input CategoryInput {
+    title: String,
+    avatar: String
+  }
+
   type Mutation { 
     createArticle(article: ArticleInput): Article
     deleteArticle(id: ID): String
     updateArticle(id: ID, article: ArticleInput): Article 
+
+    createCategory(category: CategoryInput): Category
+    deleteCategory(id: ID): String
+    updateCategory(id: ID, category: CategoryInput): Category
   }
 `;
