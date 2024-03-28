@@ -19,8 +19,42 @@ export const resolvers = {
 
   Mutation: {
     //args: object inputs
-    createArticle: (_, args) => {
-        console.log(args);
-    }
+    createArticle: async (_, args) => {
+        const { article } = args;
+
+        const record = new Article(article);
+        await record.save();
+
+        return record;
+    },
+
+    deleteArticle: async(_, args) => {
+      const { id } = args;
+      await Article.updateOne({
+        _id: id
+      }, {
+        deleted: true,
+        deletedAt: new Date()
+      });
+
+      return "Deleted article";
+    },
+
+    updateArticle: async(_, args) => {
+      const { id, article } = args;
+      await Article.updateOne({
+        _id: id
+      }, {
+        title: article.title,
+        avatar: article.avatar,
+        description: article.description
+      });
+
+      const newRecord = await Article.findOne({
+        _id: id
+      });
+
+      return newRecord;
+    },
   }
 }
