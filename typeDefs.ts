@@ -1,7 +1,25 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
+  type Article {
+    id: ID,
+    title: String,
+    avatar: String,
+    description: String
+  }
+
   type Query {
-    hello: String
+    hello: String,
+    getListArticles: [Article]
+  }
+
+  input ArticleInput {
+    title: String,
+    avatar: String,
+    description: String
+  }
+
+  type Mutation { 
+    createArticle(article: ArticleInput): Article
   }
 `;
