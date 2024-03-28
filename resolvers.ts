@@ -44,11 +44,7 @@ export const resolvers = {
       const { id, article } = args;
       await Article.updateOne({
         _id: id
-      }, {
-        title: article.title,
-        avatar: article.avatar,
-        description: article.description
-      });
+      }, article);
 
       const newRecord = await Article.findOne({
         _id: id
