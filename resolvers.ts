@@ -11,6 +11,8 @@ export const resolvers = {
       });
 
       return articles;
+      //Ham return type Article => chay vao type Article
+      //=> category => muc Article: ham category
     },
 
     getListCategories: async () => {
@@ -20,6 +22,17 @@ export const resolvers = {
 
       return categories;
     },
+  },
+  
+  Article: {//Lap qua tung ban ghi dc tra ve
+    category: async (article) => {
+      const { categoryId } = article;
+      const category = await Category.findOne({
+        _id: categoryId,
+        deleted: false
+      });
+      return category;
+    }
   },
 
   Mutation: {
