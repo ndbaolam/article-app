@@ -4,27 +4,28 @@ import { generateRandomString } from "../helpers/generate.helper";
 
 export const resolversUser = {
     Query: {
-        getUser: async (_, args) => {
-            const { id } = args;
-        
-            const infoUser = await User.findOne({
-                _id: id,
-                deleted: false
-            });
-        
+        getUser: async (_, args, context) => {
+            let infoUser;
+            if(context.tokenVerify) {
+                infoUser = await User.findOne({ 
+                    token: context.tokenVerify,
+                    deleted: false
+                });
+            }
+
             if(!infoUser) {
                 return {
-                code: 400,
-                message: "User không tồn tại!"
+                    code: 400,
+                    message: "User not found!"
                 }
             } else {
                 return {
-                code: 200,
-                message: "Thành công!",
-                id: infoUser.id,
-                fullName: infoUser.fullName,
-                email: infoUser.email,
-                token: infoUser.token,
+                    code: 200,
+                    message: "Thành công!",
+                    id: infoUser.id,
+                    fullName: infoUser.fullName,
+                    email: infoUser.email,
+                    token: infoUser.token,
                 };
             }
         }
